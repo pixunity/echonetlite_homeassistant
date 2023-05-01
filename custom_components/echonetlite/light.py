@@ -169,12 +169,17 @@ class EchonetLight(LightEntity):
         mired_steps = (self._max_mireds - self._min_mireds) / float(len(self._echonet_mireds))
 
         # get the current echonet mireds
-        color_temp = self._connector._update_data[ENL_COLOR_TEMP] if ENL_COLOR_TEMP in self._connector._update_data else 0
-        if color_temp in self._echonet_mireds:
-            self._attr_color_temp = round(self._echonet_mireds.index(color_temp) * mired_steps) + MIN_MIREDS
-        else:
+        #color_temp = self._connector._update_data[ENL_COLOR_TEMP] if ENL_COLOR_TEMP in self._connector._update_data else 0
+        #if color_temp in self._echonet_mireds:
+        #    self._attr_color_temp = round(self._echonet_mireds.index(color_temp) * mired_steps) + MIN_MIREDS
+        #else:
+        #    self._attr_color_temp = MIN_MIREDS
+        
+        # Since the light controller always returns a fixed value, the value from the light controller is ignored.
+        if not hasattr(self, "_attr_color_temp"):
             self._attr_color_temp = MIN_MIREDS
         return self._attr_color_temp
+        
 
     @property
     def color_mode(self) -> str:
